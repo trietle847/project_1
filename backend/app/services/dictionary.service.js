@@ -48,7 +48,9 @@ class dictionaryService {
   }
 
   async find(word) {
-    return await this.words.findOne({ word: word.trim().toLowerCase() });
+    return await this.words.find({
+      word: {$regex: word.trim().toLowerCase(), $options: "i"}
+    }).toArray();
   }
 
   async delete(word) {

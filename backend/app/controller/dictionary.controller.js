@@ -17,15 +17,15 @@ exports.create = async (req, res, next) => {
   }
 };
 
-exports.find = async (req, res) => {
+exports.find = async (req, res, next) => {
   try {
     const dictionaryService = new DictionaryService(MongoDB.client);
-    const word = await dictionaryService.find(req.params.word);
-    if (!word) {
+    const words = await dictionaryService.find(req.params.word);
+    if (!words || words.length === 0) {
       return next(new ApiError(404, "Không tìm thấy từ"));
     }
 
-    return res.send(word);
+    return res.send(words);
   } catch (error) {
     return next(new ApiError(500, ` Lỗi khi tìm từ: ${error}`));
   }
