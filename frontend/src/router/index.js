@@ -20,6 +20,15 @@ const routes = [
     path: "/admin",
     name: "admin",
     component: userPage,
+    beforeEnter: (to, from, next) => {
+      const isAdmin = localStorage.getItem("isAdmin") === "true";
+      if (isAdmin) {
+        next();
+      } else {
+        alert("You do not have permission to access this page.");
+        next({ name: "home" });
+      }
+    }
   },
   {
     path: "/login",

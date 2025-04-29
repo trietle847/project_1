@@ -53,8 +53,8 @@ export default {
     },
     logOut() {
       localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("hoten")
-
+      localStorage.removeItem("hoten");
+      localStorage.removeItem("isAdmin");
       this.isLoggedIn = false;
       this.hoten = "";
     }
@@ -75,9 +75,10 @@ export default {
     left: 0;
     right: 0;
     background-color: #ddd;
+    height: 75px;
+    z-index: 1000;
   }
 
-  /* Bố cục 3 phần */
   .nav-left,
   .nav-center,
   .nav-right {
@@ -85,7 +86,6 @@ export default {
     align-items: center;
   }
 
-  /* Logo */
   .logo {
     font-size: 24px;
     font-weight: bold;
@@ -93,7 +93,6 @@ export default {
     text-decoration: none;
   }
 
-  /* Menu trung tâm */
   .nav-center {
     flex: 1;
     justify-content: center;
@@ -118,7 +117,6 @@ export default {
     color: #007bff;
   }
 
-  /* Phần đăng nhập bên phải */
   .nav-right {
     gap: 15px;
   }
@@ -129,7 +127,6 @@ export default {
     color: #333;
   }
 
-  /* Các nút đăng nhập / đăng xuất */
   .btn {
     padding: 6px 14px;
     font-size: 16px;

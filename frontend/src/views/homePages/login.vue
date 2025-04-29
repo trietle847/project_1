@@ -44,12 +44,17 @@ export default {
           return;
         }
 
+        if (this.loginData.tendangnhap === "admin") {
+          localStorage.setItem("isAdmin", true);
+        }
+
         const user = result.data;
 
         if (user.password === this.loginData.password) {
           alert("Đăng nhập thành công!");
           localStorage.setItem("isLoggedIn",true);
           localStorage.setItem("hoten", user.hoten)
+
           this.$router.push("/home");
         } else {
           alert("Sai mật khẩu, vui lòng nhập lại!");
