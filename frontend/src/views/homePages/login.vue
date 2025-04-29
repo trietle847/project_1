@@ -48,6 +48,8 @@ export default {
 
         if (user.password === this.loginData.password) {
           alert("Đăng nhập thành công!");
+          localStorage.setItem("isLoggedIn",true);
+          localStorage.setItem("hoten", user.hoten)
           this.$router.push("/home");
         } else {
           alert("Sai mật khẩu, vui lòng nhập lại!");
