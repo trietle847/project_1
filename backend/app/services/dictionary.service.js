@@ -1,4 +1,4 @@
-const {ObjectId} = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 class dictionaryService {
   constructor(client) {
@@ -7,23 +7,31 @@ class dictionaryService {
 
   extractWordData(payload) {
     const word = {
-      word: payload.word?.trim().toLowerCase(), 
-      phonetics: payload.phonetics || "", 
+      word: payload.word?.trim(),
+      phonetics: payload.phonetics || "",
       meanings: [
         {
-          english: payload.meanings?.english || "", 
-          vietnamese: payload.meanings?.vietnamese || "", 
+          english: payload.meanings?.english || "",
+          vietnamese: payload.meanings?.vietnamese || "",
         },
       ],
       examples: payload.examples
         ? Array.isArray(payload.examples)
           ? payload.examples
           : [payload.examples]
-        : [], 
-      synonyms: payload.synonyms || [], 
-      antonyms: payload.antonyms || [], 
-      createdAt: new Date(), 
-      updatedAt: new Date(), 
+        : [],
+      synonyms: Array.isArray(payload.synonyms)
+        ? payload.synonyms
+        : payload.synonyms
+        ? [payload.synonyms]
+        : [],
+      antonyms: Array.isArray(payload.antonyms)
+        ? payload.antonyms
+        : payload.antonyms
+        ? [payload.antonyms]
+        : [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     return word;
@@ -48,9 +56,11 @@ class dictionaryService {
   }
 
   async find(word) {
-    return await this.words.find({
-      word: {$regex: word.trim().toLowerCase(), $options: "i"}
-    }).toArray();
+    return await this.words
+      .find({
+        word: { $regex: word.trim().toLowerCase(), $options: "i" },
+      })
+      .toArray();
   }
 
   async delete(word) {

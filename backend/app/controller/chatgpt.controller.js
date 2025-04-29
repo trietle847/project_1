@@ -2,13 +2,21 @@ const ChatGPTService = require("../services/chatgpt.service");
 const DictionaryService = require("../services/dictionary.service");
 const ApiError = require("../app-error");
 const MongoDB = require("../utils/mongodb.util");
+const { vocabularyPromptTemplate } = require("../templates/prompt.template");
 
 exports.generateVocabulary = async (req, res, next) => {
   try {
-    const { prompt } = req.body; // Dữ liệu đầu vào
+    const { topic } = req.body; 
+    if (!topic){
+      return next(new ApiError(400, "Thiếu thông tin đầu vào"));
+    }
+
+    const prompt = vocabularyPromptTemplate.replace("{{topic}}", topic);
+
+    console.log("Prompt:", prompt); // log prompt để kiểm tra
+    
     const chatGPTService = new ChatGPTService();
     const dictionaryService = new DictionaryService(MongoDB.client);
-
 
     // Gọi OpenAI API để tạo từ vựng
     const result = await chatGPTService.generateVocabulary(prompt);
