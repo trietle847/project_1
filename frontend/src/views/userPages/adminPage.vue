@@ -36,10 +36,34 @@
                 <h2>Quản lý từ điển</h2>
                 <div class="addition-form">
                     <form @submit.prevent="handleAddition">
+                        <label for="">Generate vocabulary </label>
                         <input type="text" v-model="newSubject" placeholder="Enter the subject you want"
                             class="form-input" required />
                         <button type="submit" class="btn submit">Add</button>
                     </form>
+
+                    <div class="result-form" v-if="addedWords.length ">
+                        <div class="content-result"> {{ messageResult }}</div>
+                        <div class="numOfResult">Đã thêm vào {{ quantity }} từ</div>
+
+                        <div class="arraySuccess">
+                            <div v-if="addedWords.length">
+                                <h3>Danh sách từ đã thêm</h3>
+                                <ul>
+                                    <li v-for="item in addedWords" :key="item.word"> {{ item.word }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="arrayFail">
+                            <div v-if="failedWords.length">
+                                <h3>Danh sách từ không thêm được</h3>
+                                <ul>
+                                    <li v-for="item in failedWords" :key="item.word"> {{ item.word }}: {{ item.reason }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -66,6 +90,10 @@ export default {
             currentPage: "",
             users: [],
             newSubject: "",
+            messageResult: "",
+            quantity: 0,
+            addedWords: [],
+            failedWords: [],
         }
     },
     methods: {
@@ -95,6 +123,10 @@ export default {
 
                 if (response && response.data) {
                     console.log("Thêm chủ đề thành công:", response.data);
+                    this.messageResult = response.data.message;
+                    this.quantity = response.data.inserted;
+                    this.addedWords = response.data.success || [];
+                    this.failedWords = response.data.failed || [];
                     this.newSubject = ""; // Reset input field
                 }
             } catch (error) {
@@ -102,7 +134,7 @@ export default {
             }
         }
 
-        
+
     },
 };
 </script>
@@ -202,7 +234,8 @@ h1 {
 }
 
 .btn.edit:hover {
-    opacity: 0.8;;
+    opacity: 0.8;
+    ;
 }
 
 /* Nút xóa */
@@ -215,17 +248,20 @@ h1 {
     opacity: 0.8;
 }
 
-addition-form {
+.addition-form {
     margin-top: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
-.addition-form form {
-    display: flex;
-    gap: 10px;
+.addition-form label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
 }
+
 
 .form-input {
     padding: 8px 12px;
@@ -249,4 +285,5 @@ addition-form {
 .btn.submit:hover {
     background-color: #0056b3;
 }
+
 </style>
