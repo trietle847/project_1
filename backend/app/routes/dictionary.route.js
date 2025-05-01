@@ -12,5 +12,8 @@ router.route("/")
     .delete(dictionary.deleteAll)
     .post(dictionary.create)
     .get(dictionary.findAll)
+
+router.route("/related-words/:word")
+    .delete(dictionary.deleteRelatedWord)
     
 module.exports = router;
