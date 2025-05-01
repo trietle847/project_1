@@ -55,7 +55,7 @@ export default {
           localStorage.setItem("isLoggedIn",true);
           localStorage.setItem("hoten", user.hoten)
 
-          this.$router.push("/home");
+          this.$router.push("/");
         } else {
           alert("Sai mật khẩu, vui lòng nhập lại!");
         }

@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar">
       <div class="nav-left">
-        <router-link to="/home">
+        <router-link to="/">
           <div class="logo" router-link to="/">My Dictionary</div>
         </router-link>
       </div>
