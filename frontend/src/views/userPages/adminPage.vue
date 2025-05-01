@@ -33,8 +33,10 @@
             </div>
 
             <div v-else-if="currentPage === 'dictionary'" class="dictionary-management">
-                <h2>Quản lý từ điển</h2>
+
                 <div class="addition-form">
+                    <h2>Quản lý từ điển</h2>
+                    <p>Chức năng này sẽ giúp bạn thêm các từ mới theo chủ đề vào từ điển của mình.</p>
                     <form @submit.prevent="handleAddition">
                         <label for="">Generate vocabulary </label>
                         <input type="text" v-model="newSubject" placeholder="Enter the subject you want"
@@ -59,11 +61,18 @@
                             <div v-if="failedWords.length">
                                 <h3>Danh sách từ không thêm được</h3>
                                 <ul>
-                                    <li v-for="item in failedWords" :key="item.word"> {{ item.word }}: {{ item.reason }}</li>
+                                    <li v-for="item in failedWords" :key="item.word"> {{ item.word }}: {{ item.reason }}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="update-dictionary">
+                    <h2>Cập nhật từ điển</h2>
+                    <p>Chức năng này sẽ cập nhật từ điển của bạn với các từ mới nhất.</p>
+                    <button class="btn submit btn-update">Update dictionary</button>
                 </div>
 
             </div>
