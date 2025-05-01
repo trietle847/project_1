@@ -63,3 +63,18 @@ exports.delete = async (req, res, next) => {
 exports.deleteAll = (req, res) => {
   res.send({ message: "delete all" });
 };
+
+exports.deleteRelatedWord = async (req, res, next) => {
+  try {
+    const dictionaryService = new DictionaryService(MongoDB.client);
+    const result = await dictionaryService.deleteRelatedWord(req.params.word);
+
+    if (!result) {
+      return next(new ApiError(404, "không tìm thấy từ để xóa"));
+    }
+
+    return res.send({ message: "Xóa thành công" });
+  } catch (error) {
+    return next(new ApiError(500, `Lỗi khi xóa từ: ${error.message}`));
+  }
+}
