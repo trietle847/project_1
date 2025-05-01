@@ -3,13 +3,13 @@
     <nav class="navbar">
       <div class="nav-left">
         <router-link to="/home">
-          <div class="logo" router-link to="/home">My Dictionary</div>
+          <div class="logo" router-link to="/">My Dictionary</div>
         </router-link>
       </div>
 
       <div class="nav-center">
         <ul class="nav-links">
-          <li><a href="/">Home</a></li>
+          <!-- <li><a href="/">Home</a></li> -->
           <li><a href="/dictionary">Dictionary</a></li>
           <li><a href="/about">Game</a></li>
           <li><a href="/contact">Contact</a></li>

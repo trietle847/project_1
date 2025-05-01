@@ -8,13 +8,13 @@ import register from "@/views/homePages/register.vue";
 const routes = [
   {
     path: "/",
-    name: "dictionary",
-    component: Dictionary,
-  },
-  {
-    path: "/home",
     name: "home",
     component: home,
+  },
+  {
+    path: "/dictionary",
+    name: "dictionary",
+    component: Dictionary,
   },
   {
     path: "/admin",
