@@ -2,30 +2,30 @@
     <div class="home-page">
         <Navbar />
         <Sidebar />
-        <h1>English Dictionary</h1>
-        <div class="search-container">
-            <input type="text" v-model="searchQuery" placeholder="Search for a word..." @input="searchWord" />
-            <button @click="searchWord">Search</button>
-        </div>
+        <div class="content">
+            <h1 class="title">English Dictionary</h1>
+            <div class="search-container">
+                <input type="text" v-model="searchQuery" placeholder="Search for a word..." @input="searchWord" />
+                <button @click="searchWord">Search</button>
+            </div>
 
-        <div class="results-container" v-if="results">
-            <h2>Results for "{{ searchQuery }}":</h2>
-            <div class="cards-container">
-                <div class="word-card" v-for="(result, index) in results" :key="index">
-                    <h2 class="text-xl font-semibold text-blue-600">{{ result.word }}</h2>
-                    <p><strong>Phonetics:</strong> {{ result.phonetics }}</p>
-                    <p><strong>Nghĩa Anh:</strong> {{ result.meanings[0]?.english }}</p>
-                    <p><strong>Nghĩa Việt:</strong> {{ result.meanings[0]?.vietnamese }}</p>
-                    <p><strong>Ví dụ:</strong> {{ result.examples.join("; ") }}</p>
-                    <p><strong>Đồng nghĩa:</strong> {{ result.synonyms.join(", ") }}</p>
-                    <p><strong>Trái nghĩa:</strong> {{ result.antonyms.join(", ") }}</p>
+            <div class="results-container" v-if="results">
+                <h2 class="title">Results for "{{ searchQuery }}":</h2>
+                <div class="cards-container">
+                    <div class="word-card" v-for="(result, index) in results" :key="index"
+                        @click="showDetailWord(result)">
+                        <h2 class="text-xl font-semibold text-blue-600">{{ result.word }}</h2>
+                        <p><strong>Nghĩa Anh:</strong> {{ result.meanings[0]?.english }}</p>
+                        <p><strong>Nghĩa Việt:</strong> {{ result.meanings[0]?.vietnamese }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div v-else-if="searchQuery && !results">
+                <p class="title">No results found for "{{ searchQuery }}".</p>
+            </div>
 
-
-        <div v-else-if="searchQuery && !results">
-            <p>No results found for "{{ searchQuery }}".</p>
+            <!-- component wordDetail -->
+            <WordDetail v-if="selectedWord" :word="selectedWord" @close="selectedWord = null" />
         </div>
     </div>
 </template>
@@ -33,22 +33,24 @@
 <script>
 import Navbar from '@/components/navbar.vue';
 import Sidebar from '@/components/sidebar.vue';
+import WordDetail from '@/components/wordDetail.vue';
 import dictionaryService from '@/services/dictionary.service';
-
 export default {
     components: {
         Navbar,
         Sidebar,
+        WordDetail,
     },
     data() {
         return {
             searchQuery: "",
             results: null,
+            selectedWord: null,
         };
     },
     methods: {
         async searchWord() {
-            if (!this.searchQuery.trim() ) {
+            if (!this.searchQuery.trim()) {
                 this.results = null;
                 return;
             }
@@ -60,6 +62,10 @@ export default {
                 console.error("lỗi khi tải dữ liệu:", error);
                 this.results = null;
             }
+        },
+        showDetailWord(word) {
+            console.log("Selected word:", word);
+            this.selectedWord = word;
         }
     },
 };
@@ -70,17 +76,37 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: calc(100vh - 60px);
-    margin: 80px auto 0;
+    /* min-height: calc(100vh - 60px); */
+    min-height: 100vh;
+    /* margin: 80px auto 0;
     padding: 20px;
     padding-left: 240px;
-    text-align: center;
+    text-align: center; */
+}
+
+.content {
+    margin-top: 75px;
+    margin-left: 230px;
+    padding: 20px;
+    flex: 1;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    min-height: calc(100vh - 75px);
+    position: absolute;
+    left: 10px;
+    right: 0px;
+    top: 0;
+    bottom: 0;
 }
 
 .search-container {
     margin: 20px 0;
+    text-align: center;
 }
 
+.title {
+    text-align: center;
+}
 input {
     padding: 20px;
     font-size: 20px;
@@ -128,4 +154,3 @@ button {
     transform: scale(1.02);
 }
 </style>
-

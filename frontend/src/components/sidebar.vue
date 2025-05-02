@@ -91,7 +91,7 @@ export default {
   min-width: 220px;
   background-color: #f8f9fa;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 75px);
+  min-height: calc(100vh - 75px);
   overflow-y: auto;
   z-index: 1000;
   white-space: nowrap;
