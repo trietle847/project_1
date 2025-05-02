@@ -2,7 +2,7 @@ const axios = require("axios");
 
 class ChatGPTService {
   constructor() {
-    this.apiKey = "AIzaSyBfp1VX8JFmo9nP07X4C0WHj-3lcq5PNMQ"; // Thay bằng API key của bạn
+    this.apiKey = "AIzaSyDKhMHhbDeZ5UR_sYsJTzxdpnIh5SueGqw"; // Thay bằng API key của bạn
     this.url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`;
   }
 

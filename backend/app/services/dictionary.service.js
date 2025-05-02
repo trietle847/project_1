@@ -47,8 +47,13 @@ class dictionaryService {
     const wordData = this.extractWordData(payload);
 
     // Kiểm tra nếu từ đã tồn tại
-    const existing = await this.words.findOne({ word: wordData.word });
+    const existing = await this.words.findOne({
+      word: { $regex: `^${wordData.word}$`, $options: "i" },
+    });
     if (existing) {
+      await this.relations.deleteOne({
+        word: { $regex: `^${wordData.word}$`, $options: "i" },
+      });
       throw new Error("Từ đã tồn tại trong cơ sở dữ liệu.");
     }
 
@@ -59,11 +64,16 @@ class dictionaryService {
       // Tách từ đồng nghĩa
       const synonymWords = item.split(",").map((synonym) => synonym.trim());
       for (const synonym of synonymWords) {
-        await this.relations.updateOne(
-          { word: synonym },
-          { $set: { word: synonym } },
-          { upsert: true }
-        );
+        const exist = await this.words.findOne({
+          word: { $regex: `^${synonym}$`, $options: "i" },
+        });
+        if (!exist) {
+          await this.relations.updateOne(
+            { word: synonym },
+            { $set: { word: synonym } },
+            { upsert: true }
+          );
+        }
       }
     }
 
@@ -72,11 +82,16 @@ class dictionaryService {
       // Tách từ trái nghĩa
       const antonymWords = item.split(",").map((antonym) => antonym.trim());
       for (const antonym of antonymWords) {
-        await this.relations.updateOne(
-          { word: antonym },
-          { $set: { word: antonym } },
-          { upsert: true }
-        );
+        const exist = await this.words.findOne({
+          word: { $regex: `^${antonym}$`, $options: "i" },
+        });
+        if (!exist) {
+          await this.relations.updateOne(
+            { word: antonym },
+            { $set: { word: antonym } },
+            { upsert: true }
+          );
+        }
       }
     }
 
@@ -112,8 +127,8 @@ class dictionaryService {
       word: { $regex: `^${word.trim()}$`, $options: "i" },
     });
   }
+
+  async;
 }
-
-
 
 module.exports = dictionaryService;

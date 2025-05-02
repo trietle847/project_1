@@ -21,6 +21,8 @@ exports.generateVocabulary = async (req, res, next) => {
         - chủ đề của từ vựng (topics) (1-2 chủ đề)
         - Phát âm (phonetics)
         - Từ vựng (word)
+        - Viết hoa chữ cái đầu tiên của kết quả
+        - Không được thêm các ghi chú hay thông tin không cần thiết vào kết quả
 
         Trả kết quả dưới dạng JSON có cấu trúc như sau:
 
@@ -63,7 +65,7 @@ exports.generateVocabulary = async (req, res, next) => {
     const parsedData = JSON.parse(cleaned);
 
     for (let item of parsedData) {
-      item.topics = [topic];
+      // item.topics = [topic];
       // console.log(JSON.stringify(item));
       try {
         const doc = await dictionaryService.createWord(item);
@@ -111,7 +113,7 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
     const success = [];
     const failed = [];
 
-    for (let batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+    for (let batchIndex = 0; batchIndex < 5; batchIndex++) {
       const batch = allRelatedWords.slice(
         batchIndex * batchSize,
         (batchIndex + 1) * batchSize
@@ -130,7 +132,8 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
           - Một số ví dụ (examples) minh họa cách dùng (1-2 ví dụ)
           - chủ đề của từ vựng (topics) (1-2 chủ đề)
           - Phát âm (phonetics)
-
+          - Viết hoa chữ cái đầu tiên của kết quả
+          - Không được thêm các ghi chú hay thông tin không cần thiết vào kết quả
           Trả kết quả dưới dạng JSON có cấu trúc như sau:
 
           {
