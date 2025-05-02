@@ -9,9 +9,8 @@
 
       <div class="nav-center">
         <ul class="nav-links">
-          <!-- <li><a href="/">Home</a></li> -->
-          <li><a href="/dictionary">Dictionary</a></li>
-          <li><a href="/about">Game</a></li>
+          <li><router-link to="/dictionary">Dictionary</router-link></li>
+          <li><a href="/game">Game</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
