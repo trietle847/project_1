@@ -1,7 +1,7 @@
 <template>
     <div class="home-page">
         <Navbar />
-
+        <Sidebar />
         <h1>English Dictionary</h1>
         <div class="search-container">
             <input type="text" v-model="searchQuery" placeholder="Search for a word..." @input="searchWord" />
@@ -32,11 +32,13 @@
 
 <script>
 import Navbar from '@/components/navbar.vue';
+import Sidebar from '@/components/sidebar.vue';
 import dictionaryService from '@/services/dictionary.service';
 
 export default {
     components: {
         Navbar,
+        Sidebar,
     },
     data() {
         return {
@@ -69,8 +71,9 @@ export default {
     flex-direction: column;
     align-items: center;
     min-height: calc(100vh - 60px);
-    margin: 40px auto 0;
+    margin: 80px auto 0;
     padding: 20px;
+    padding-left: 240px;
     text-align: center;
 }
 
@@ -99,6 +102,7 @@ button {
 .cards-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 12px;
     padding: 10px;
 }
@@ -116,6 +120,7 @@ button {
     width: 100%;
     transition: all 0.3s ease;
     cursor: pointer;
+    width: 85%;
 }
 
 .word-card:hover {
