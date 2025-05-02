@@ -47,19 +47,36 @@ export default {
   name: "sidebar",
   data() {
     return {
-      selectedPage: 'users',
+      selectedPage: '',
       isAdmin: false,
     };
   },
   mounted() {
-    this.$emit('selectPage', this.selectedPage);
     this.isAdmin = localStorage.getItem("isAdmin") === "true";
+    this.updateSelectedPage();
+  },
+  watch: {
+    '$route.path'() {
+      this.updateSelectedPage();
+    },
   },
   methods: {
     selectPage(page) {
       this.selectedPage = page;
       this.$emit('selectPage', page);
+
+      if (this.isAdmin && this.$route.path !== '/admin') {
+        this.$router.push('/admin');
+      }
     },
+    updateSelectedPage() {
+      if (this.isAdmin && this.$route.path === '/admin') {
+        this.selectedPage = 'users';
+        this.$emit('selectPage', 'users');
+      } else {
+        this.selectedPage = null;
+      }
+    }
   },
 };
 </script>
