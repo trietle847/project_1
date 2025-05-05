@@ -25,7 +25,8 @@
             </div>
 
             <!-- component wordDetail -->
-            <WordDetail v-if="selectedWord" :word="selectedWord" @close="selectedWord = null" />
+            <WordDetail v-if="selectedWord" :word="selectedWord" @close="selectedWord = null"
+            @save="saveWord"/>
         </div>
     </div>
 </template>
@@ -35,6 +36,8 @@ import Navbar from '@/components/navbar.vue';
 import Sidebar from '@/components/sidebar.vue';
 import WordDetail from '@/components/wordDetail.vue';
 import dictionaryService from '@/services/dictionary.service';
+import userSaveWordService from '@/services/userSaveWord.service';
+
 export default {
     components: {
         Navbar,
@@ -66,6 +69,10 @@ export default {
         showDetailWord(word) {
             console.log("Selected word:", word);
             this.selectedWord = word;
+        },
+        async saveWord() {
+            await userSaveWordService.addSaveWord(this.selectedWord.word)
+            alert("Thêm từ vào danh sách từ đã lưu thành công")
         }
     },
 };
