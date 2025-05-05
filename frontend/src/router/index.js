@@ -4,6 +4,8 @@ import home from "@/views/homePages/home.vue";
 import userPage from "@/views/userPages/adminPage.vue"
 import login from "@/views/homePages/login.vue";
 import register from "@/views/homePages/register.vue";
+import savedword from "@/views/userPages/savedWordPage.vue";
+import profile from "@/views/userPages/profile.vue";
 
 const routes = [
   {
@@ -39,6 +41,16 @@ const routes = [
     path: "/register",
     name: "register",
     component: register,
+  },
+  {
+    path: "/saved",
+    name: "savedword",
+    component: savedword,
+  },
+  {
+    path: "/profile",
+    name: "profile",  
+    component: profile,
   },
 ];
 const router = createRouter({

@@ -25,12 +25,6 @@
             </button>
           </li>
           <li>
-            <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'learning' }"
-              @click="selectPage('learning')">
-              Từ đang học
-            </button>
-          </li>
-          <li>
             <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'account' }"
               @click="selectPage('account')">
               Tài khoản
@@ -68,13 +62,20 @@ export default {
       if (this.isAdmin && this.$route.path !== '/admin') {
         this.$router.push('/admin');
       }
+      else if (page === 'saved') {
+        this.$router.push('/saved');
+      } else if (page === 'account') {
+        this.$router.push('/profile');
+      }
     },
     updateSelectedPage() {
       if (this.isAdmin && this.$route.path === '/admin') {
         this.selectedPage = 'users';
         this.$emit('selectPage', 'users');
-      } else {
-        this.selectedPage = null;
+      } else if (this.$route.path === '/saved') {
+        this.selectedPage = 'saved';
+      } else if (this.$route.path === '/profile') {
+        this.selectedPage = 'account';
       }
     }
   },

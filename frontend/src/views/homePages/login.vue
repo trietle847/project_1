@@ -38,7 +38,7 @@ export default {
     async handleLogin() {
       try {
         const response = await userService.login(this.loginData);
-        console.log(response.data.token); 
+        console.log(response.data.token);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("isLoggedIn", true);
 
@@ -46,42 +46,17 @@ export default {
         localStorage.setItem("hoten", result.data.hoten);
 
         alert("Đăng nhập thành công!");
-        this.$router.push("/"); 
+        
+        if (this.loginData.tendangnhap === "admin") {
+          localStorage.setItem("isAdmin", true);
+        }
+
+        this.$router.push("/");
       } catch (error) {
         console.error("Lỗi đăng nhập:", error);
       }
     }
-    // async handleLogin() {
-    //   try {
-    //     const result = await userService.getUserByUsername(this.loginData.tendangnhap);
 
-    //     if (!result || !result.data) {
-    //       alert("Tên đăng nhập không tồn tại!");
-    //       return;
-    //     }
-
-    //     if (this.loginData.tendangnhap === "admin") {
-    //       localStorage.setItem("isAdmin", true);
-    //     }
-
-    //     const user = result.data;
-
-    //     if (user.password === this.loginData.password) {
-    //       alert("Đăng nhập thành công!");
-    //       localStorage.setItem("isLoggedIn",true);
-    //       localStorage.setItem("hoten", user.hoten)
-
-    //       this.$router.push("/");
-    //     } else {
-    //       alert("Sai mật khẩu, vui lòng nhập lại!");
-    //     }
-    //   } catch (error) {
-    //     console.error("Lỗi đăng nhập:", error);
-    //     alert("Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại!");
-    //   }
-    // }
-
-    
   },
 };
 </script>

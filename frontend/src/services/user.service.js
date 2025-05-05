@@ -15,5 +15,8 @@ export default {
   },
   login(data) {
     return createAPI.post("/user/login",data)
-  }
+  },
+  getMe() {
+    return createAPI.get("/user/me")
+  },
 };
