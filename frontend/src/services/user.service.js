@@ -13,4 +13,7 @@ export default {
   getUserByUsername(username) {
     return createAPI.get(`/user/${username}`)
   },
+  login(data) {
+    return createAPI.post("/user/login",data)
+  }
 };
