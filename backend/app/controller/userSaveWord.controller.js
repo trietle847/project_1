@@ -1,0 +1,30 @@
+const { MongoClient } = require("mongodb");
+const MongoDB = require("../utils/mongodb.util");
+const ApiError = require("../app-error");
+const UserSavedWordService = require("../services/userSavedWord.service");
+
+exports.saveWord = async (req, res, next) => {
+  try {
+    const username = req.user.tendangnhap;
+    const { word } = req.body;
+
+    const userSavedService = new UserSavedWordService(MongoDB.client);
+
+    const result = await userSavedService.saveWord(username, word);
+    res.status(200).json({ message: "Lưu từ thành công", result });
+  } catch (error) {
+    return next(new ApiError(500, `Lỗi khi lưu: ${error}`));
+  }
+};
+
+exports.getSavedWords = async (req, res, next) => {
+  try {
+    const userSavedService = new UserSavedWordService(MongoDB.client);
+
+    const username = req.user.tendangnhap;
+    const saved = await userSavedService.getSavedWords(username);
+    res.send(saved);
+  } catch (error) {
+    return next(new ApiError(500, `Lỗi khi lấy: ${error}`));
+  }
+};
