@@ -10,9 +10,15 @@
             <p><strong>Trái nghĩa:</strong> {{ word.antonyms.join(', ') }}</p>
             <p><strong>Chủ đề:</strong> {{ word.topics.join(', ') }}</p>
 
-            <button @click="$emit('close')" class="btn btn-primary mt-2">
-                Đóng
-            </button>
+            <div class="action">
+                <button @click="$emit('close')" class="btn btn-primary mt-2">
+                    Đóng
+                </button>
+
+                <button @click="$emit('save')" class="btn btn-primary mt-2">
+                    Thêm vào từ đã lưu
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -60,5 +66,10 @@ export default {
 
 .title {
     text-align: center;
+}
+
+.action {
+    display: flex;
+    justify-content: space-evenly;
 }
 </style>
