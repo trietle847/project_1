@@ -7,6 +7,8 @@ router.route("/")
     .post(user.create)
     .get(user.getAllUser)
 
+router.route("/login")
+    .post(user.login)
 
 router.route("/:id")
     .delete(user.deleteUserByID)
