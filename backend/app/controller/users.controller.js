@@ -10,20 +10,11 @@ exports.create = async (req, res, next) => {
   try {
     const userService = new UserService(MongoDB.client);
     const doc = await userService.createUser(req.body);
-    
-    const token = jwt.sign(
-      {
-        id: doc._id,
-        tendangnhap: doc.tendangnhap,
-      },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-    );
-    return res.status(201).json({
+
+    return res.send({
       message: "Tạo người dùng thành công",
       user: doc,
-      token: token,
-     });
+    });
   } catch (error) {
     return next(new ApiError(500, `Lỗi khi thêm người dùng: ${error.message}`));
   }
@@ -33,11 +24,11 @@ exports.getAllUser = async (req, res, next) => {
   try {
     const userService = new UserService(MongoDB.client);
     const doc = await userService.getAllUser();
-    return res.send(doc)
+    return res.send(doc);
   } catch (error) {
-    return next(new ApiError(500, ` Lỗi khi lấy người dùng: ${error}`))
+    return next(new ApiError(500, ` Lỗi khi lấy người dùng: ${error}`));
   }
-}
+};
 
 exports.deleteUserByID = async (req, res, next) => {
   try {
@@ -52,19 +43,18 @@ exports.deleteUserByID = async (req, res, next) => {
   } catch (error) {
     return next(new ApiError(500, ` Lỗi khi xóa người dùng: ${error}`));
   }
-}
+};
 
 exports.getUserByUsername = async (req, res, next) => {
   try {
     const userService = new UserService(MongoDB.client);
     const doc = await userService.getUserByUsername(req.params.tendangnhap);
 
-    return res.send(doc)
+    return res.send(doc);
   } catch (error) {
     return next(new ApiError(500, ` Lỗi khi lấy người dùng: ${error}`));
   }
-
-}
+};
 
 exports.login = async (req, res, next) => {
   try {
@@ -86,11 +76,28 @@ exports.login = async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
-    return res.json({ 
+    return res.json({
       token,
       message: "Đăng nhập thành công",
-     });
+    });
   } catch (error) {
     return next(new ApiError(500, `Lỗi khi đăng nhập: ${error}`));
+  }
+};
+
+exports.getMe = async (req, res, next) => {
+  try {
+    const userService = new UserService(MongoDB.client);
+
+    const tendangnhap = req.user.tendangnhap;
+    const user = await userService.getUserByUsername(tendangnhap);
+    if (!user) {
+      return next(new ApiError(404, "Không tìm thấy người dùng"));
+    }
+    return res.send(user);
+  } catch (error) {
+    return next(
+      new ApiError(500, `Lỗi khi lấy thông tin người dùng: ${error}`)
+    );
   }
 };
