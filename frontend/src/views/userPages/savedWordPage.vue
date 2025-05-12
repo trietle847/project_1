@@ -14,7 +14,11 @@
                     <p><strong>Đồng nghĩa:</strong> {{ result.synonyms.join(', ') }}</p>
                     <p><strong>Trái nghĩa:</strong> {{ result.antonyms.join(', ') }}</p>
                     <p><strong>Chủ đề:</strong> {{ result.topics.join(', ') }}</p>
+                    <div class="action">
+                        <button class="btn-submit" @click="deleteSavedWord(result.word)">Bỏ lưu</button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -35,29 +39,30 @@ export default {
     data() {
         return {
             results: [],
+            selectedWord: null,
         };
     },
     mounted() {
         this.fetchData();
     },
-    methods : {
+    methods: {
         async fetchData() {
             try {
                 const response = await userSaveWordService.getSavedWords();
                 const words = response.data;
 
                 const vocabularyResult = [];
-                for (const word of words){
-                     try {
+                for (const word of words) {
+                    try {
                         const res = await dictionaryService.getAVocabulary(word);
-                         if (Array.isArray(res.data)) {
-                             vocabularyResult.push(...res.data);
-                         } else {
-                             vocabularyResult.push(res.data); 
-                         }
-                     } catch (error) {
+                        if (Array.isArray(res.data)) {
+                            vocabularyResult.push(...res.data);
+                        } else {
+                            vocabularyResult.push(res.data);
+                        }
+                    } catch (error) {
                         console.error("không lấy được từ", error)
-                     }
+                    }
                 }
                 this.results = vocabularyResult;
                 console.log(this.results)
@@ -65,6 +70,16 @@ export default {
                 console.error('Error fetching saved words:', error);
             }
         },
+
+        async deleteSavedWord(word) {
+            try {
+                await userSaveWordService.deleteSavedWord(word)
+                this.fetchData();
+                alert("Xóa thành công")
+            } catch (error) {
+                console.error('Lỗi khi xóa', error)
+            }
+        }
     }
 
 };
@@ -108,10 +123,23 @@ export default {
     width: 85%;
 }
 
-.word-card:hover {
+/* .word-card:hover {
     background-color: #dce8ff;
     transform: scale(1.02);
+} */
+
+.btn-submit {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-
+.btn-submit:hover {
+    opacity: 0.8;
+}
 </style>
