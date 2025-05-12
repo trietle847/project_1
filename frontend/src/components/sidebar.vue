@@ -4,14 +4,14 @@
       <ul class=" nav nav-pills flex-column mb-auto">
         <div v-if="isAdmin">
           <li class="nav-item">
-            <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'users' }"
-              @click="selectPage('users')">
+            <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'manageUsers' }"
+              @click="selectPage('manageUsers')">
               Manage Users
             </button>
           </li>
           <li>
-            <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'dictionary' }"
-              @click="selectPage('dictionary')">
+            <button class="nav-link text-start w-100" :class="{ active: selectedPage === 'manageDictionary' }"
+              @click="selectPage('manageDictionary')">
               Manage Dictionary
             </button>
           </li>
@@ -59,8 +59,11 @@ export default {
       this.selectedPage = page;
       this.$emit('selectPage', page);
 
-      if (this.isAdmin && this.$route.path !== '/admin') {
-        this.$router.push('/admin');
+      if (page === 'manageUsers') {
+        this.$router.push('/admin/user');
+      }
+      else if (page === 'manageDictionary') {
+        this.$router.push('/admin/dictionary')
       }
       else if (page === 'saved') {
         this.$router.push('/saved');
@@ -69,15 +72,19 @@ export default {
       }
     },
     updateSelectedPage() {
-      if (this.isAdmin && this.$route.path === '/admin') {
-        this.selectedPage = 'users';
-        this.$emit('selectPage', 'users');
+      if (this.isAdmin && this.$route.path === '/admin/user') {
+        this.selectedPage = 'manageUsers';
+        this.$emit('selectPage', 'manageUsers');
+      } else if (this.isAdmin && this.$route.path === '/admin/dictionary') {
+        this.selectedPage = 'manageDictionary';
+        this.$emit('selectPage', 'manageDictionary');
       } else if (this.$route.path === '/saved') {
         this.selectedPage = 'saved';
       } else if (this.$route.path === '/profile') {
         this.selectedPage = 'account';
       }
     }
+
   },
 };
 </script>

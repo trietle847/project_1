@@ -9,7 +9,7 @@
 
       <div class="nav-center">
         <ul class="nav-links">
-          <li><router-link to="/dictionary">Dictionary</router-link></li>
+          <li><router-link to="/">Dictionary</router-link></li>
           <li><a href="/game">Game</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
