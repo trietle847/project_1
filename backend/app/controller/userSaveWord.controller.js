@@ -34,7 +34,7 @@ exports.deleteSavedWord = async(req, res, next) => {
     const userSavedService = new UserSavedWordService(MongoDB.client);
 
     const username = req.user.tendangnhap;
-    const word = req.body.word;
+    const word = req.query.word;
     const result = await userSavedService.deleteWord(username,word);
 
     res.send({message:"xóa thành công", result})
