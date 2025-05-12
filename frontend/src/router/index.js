@@ -1,7 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Dictionary from "@/views/Dictionary.vue";
 import home from "@/views/homePages/home.vue";
-import userPage from "@/views/userPages/adminPage.vue"
+import manageUser from "@/views/adminPages/manageUser.vue"
+import manageDictionary from "@/views/adminPages/manageDictionary.vue"
 import login from "@/views/homePages/login.vue";
 import register from "@/views/homePages/register.vue";
 import savedword from "@/views/userPages/savedWordPage.vue";
@@ -19,18 +20,14 @@ const routes = [
     component: Dictionary,
   },
   {
-    path: "/admin",
-    name: "admin",
-    component: userPage,
-    beforeEnter: (to, from, next) => {
-      const isAdmin = localStorage.getItem("isAdmin") === "true";
-      if (isAdmin) {
-        next();
-      } else {
-        alert("You do not have permission to access this page.");
-        next({ name: "home" });
-      }
-    }
+    path: "/admin/user",
+    name: "manageUser",
+    component: manageUser,
+  },
+  {
+    path: "/admin/dictionary",
+    name: "manageDictionary",
+    component: manageDictionary,
   },
   {
     path: "/login",
@@ -49,7 +46,7 @@ const routes = [
   },
   {
     path: "/profile",
-    name: "profile",  
+    name: "profile",
     component: profile,
   },
 ];
