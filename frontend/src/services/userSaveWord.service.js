@@ -7,4 +7,8 @@ export default {
   getSavedWords() {
     return createAPI.get("/userSavedWord");
   },
+  deleteSavedWord(word) {
+    return createAPI.delete(`/userSavedWord?word=${encodeURIComponent(word)}`);
+  },
+  
 }
