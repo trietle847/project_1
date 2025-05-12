@@ -99,8 +99,7 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
     const dictionaryService = new DictionaryService(MongoDB.client);
     const chatGPTService = new ChatGPTService();
 
-    const batchSize = 15;
-    const delayBetweenBatches = 2 * 60 * 1000; // 2 phút
+    const batchSize = 15; // lấy 15 từ đầu
 
     const allRelatedWords = await dictionaryService.getAllRelatedWords();
 
@@ -108,22 +107,13 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
       return next(new ApiError(404, "Không có từ nào trong bảng relatedWords"));
     }
 
-    const totalBatches = Math.ceil(allRelatedWords.length / batchSize);
-
     const success = [];
     const failed = [];
+    const batch = allRelatedWords.slice(0, batchSize);
 
-    for (let batchIndex = 0; batchIndex < 5; batchIndex++) {
-      const batch = allRelatedWords.slice(
-        batchIndex * batchSize,
-        (batchIndex + 1) * batchSize
-      );
-
-      console.log(`🔄 Bắt đầu xử lý batch ${batchIndex + 1}/${totalBatches}`);
-
-      for (let item of batch) {
-        const word = item.word;
-        const prompt = `
+    for (let item of batch) {
+      const word = item.word;
+      const prompt = `
           Hãy tạo từ vựng chi tiết cho từ "${word}" bao gồm:
           - Nghĩa tiếng Anh
           - Nghĩa tiếng Việt
@@ -150,45 +140,36 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
           }
         `;
 
-        try {
-          const result = await chatGPTService.generateVocabulary(prompt);
-          const cleaned = result
-            .split("\n")
-            .filter(
-              (line) =>
-                !line.trim().startsWith("```json") &&
-                !line.trim().startsWith("```")
-            )
-            .join("\n");
+      try {
+        const result = await chatGPTService.generateVocabulary(prompt);
+        const cleaned = result
+          .split("\n")
+          .filter(
+            (line) =>
+              !line.trim().startsWith("```json") &&
+              !line.trim().startsWith("```")
+          )
+          .join("\n");
 
-          const parsed = JSON.parse(cleaned);
-          await dictionaryService.createWord(parsed);
+        const parsed = JSON.parse(cleaned);
+        await dictionaryService.createWord(parsed);
 
-          // Xoá khỏi relatedWords nếu tạo thành công
-          await dictionaryService.deleteRelatedWord(word);
-          success.push({ word });
-        } catch (err) {
-          console.error(`❌ Lỗi khi xử lý từ "${word}":`, err.message);
-          failed.push({
-            word,
-            reason: err.message,
-          });
-        }
-      }
+        // Xoá khỏi relatedWords nếu tạo thành công
+        await dictionaryService.deleteRelatedWord(word);
 
-      // Chờ 5 phút trước khi xử lý batch tiếp theo
-      if (batchIndex < totalBatches - 1) {
-        console.log(`Chờ 2 phút trước batch tiếp theo...`);
-        await new Promise((resolve) =>
-          setTimeout(resolve, delayBetweenBatches)
-        );
+        success.push({ word });
+      } catch (err) {
+        console.error(`❌ Lỗi khi xử lý từ "${word}":`, err.message);
+        failed.push({
+          word,
+          reason: err.message,
+        });
       }
     }
 
     return res.send({
-      message: "Hoàn tất xử lý tất cả từ trong relatedWords",
-      totalBatches,
-      totalWords: allRelatedWords.length,
+      message: "Hoàn tất xử lý tất cả từ trong 1 batch",
+      processed: batch.length,
       success,
       failed,
     });
