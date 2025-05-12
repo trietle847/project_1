@@ -18,6 +18,15 @@ class UserSavedWordService {
     const doc = await this.saved.findOne({ tendangnhap: username });
     return doc?.savedWords || [];
   }
+
+  async deleteWord(username, word) {
+    const result = await this.saved.updateOne(
+      { tendangnhap: username },
+      { $pull: { savedWords: word } }
+    );
+    return result;
+  }
+  
 }
 
 module.exports = UserSavedWordService;

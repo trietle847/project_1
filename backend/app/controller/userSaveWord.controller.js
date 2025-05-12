@@ -28,3 +28,17 @@ exports.getSavedWords = async (req, res, next) => {
     return next(new ApiError(500, `Lỗi khi lấy: ${error}`));
   }
 };
+
+exports.deleteSavedWord = async(req, res, next) => {
+  try {
+    const userSavedService = new UserSavedWordService(MongoDB.client);
+
+    const username = req.user.tendangnhap;
+    const word = req.body.word;
+    const result = await userSavedService.deleteWord(username,word);
+
+    res.send({message:"xóa thành công", result})
+  } catch (error) {
+    next(new ApiError(500, `Lỗi khi xóa từ ${error}`))
+  }
+}

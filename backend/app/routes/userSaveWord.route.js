@@ -8,4 +8,7 @@ router.route("/")
     .get(authMiddleware, userSaved.getSavedWords)
     .post(authMiddleware, userSaved.saveWord);
 
+router.route("/")
+    .delete(authMiddleware,userSaved.deleteSavedWord)
+
 module.exports = router;
