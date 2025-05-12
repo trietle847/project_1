@@ -1,6 +1,7 @@
 <template>
     <div class="word-detail">
         <div v-drag class="card">
+            <div class="drag-handle"></div>
             <h2 class="text-2xl font-bold title"> {{ word.word }}</h2>
             <p><strong>Phonetics:</strong> {{ word.phonetics }}</p>
             <p><strong>Nghĩa Anh:</strong> {{ word.meanings[0]?.english }}</p>
@@ -9,7 +10,6 @@
             <p><strong>Đồng nghĩa:</strong> {{ word.synonyms.join(', ') }}</p>
             <p><strong>Trái nghĩa:</strong> {{ word.antonyms.join(', ') }}</p>
             <p><strong>Chủ đề:</strong> {{ word.topics.join(', ') }}</p>
-
             <div class="action">
                 <button @click="$emit('close')" class="btn btn-primary mt-2">
                     Đóng
@@ -35,6 +35,18 @@ export default {
 }
 </script>
 <style scoped>
+
+.drag-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: move;
+    border-radius: 4px;
+}
+
 .word-detail {
     position: fixed;
     top: 0;
@@ -60,7 +72,7 @@ export default {
 .card {
     text-align: left;
     position: absolute;
-    cursor: move;
+    /* cursor: move; */
 
 }
 

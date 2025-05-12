@@ -1,9 +1,13 @@
 export default {
   mounted(el) {
     el.style.position = "absolute";
-    el.style.cursor = "move";
 
-    el.addEventListener("mousedown", (e) => {
+    const handle = el.querySelector(".drag-handle");
+    if (!handle) return;
+
+    handle.style.cursor = "move";
+
+    handle.addEventListener("mousedown", (e) => {
       const offsetX = e.clientX - el.offsetLeft;
       const offsetY = e.clientY - el.offsetTop;
 

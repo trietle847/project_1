@@ -4,11 +4,17 @@
         <Sidebar />
         <div class="content">
             <h1>Thông tin tài khoản</h1>
-            <div class="user-info">
-                <p>Tên tài khoản: {{ user.tendangnhap }}</p>
-                <p>Email: {{ user.email }}</p>
-                <p>Họ tên: {{ user.hoten }}</p>
-                <p>Số điện thoại: {{ user.sdt }}</p>
+            <div class="card-info">
+                <div class="user-info">
+                    <p>Tên tài khoản: {{ user.tendangnhap }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Họ tên: {{ user.hoten }}</p>
+                    <p>Số điện thoại: {{ user.sdt }}</p>
+
+                    <div class="action">
+                        <button class="btn btn-primary">Sửa tài khoản</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,6 +73,32 @@ export default {
     left: 10px;
     right: 0px;
     top: 0;
-    bottom: 0;
+
+}
+
+.card-info {
+    display: flex;
+    justify-content: center;
+}
+
+.user-info {
+    padding: 40px 50px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-top: 100px;
+}
+
+.user-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 8px 0;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.action {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 </style>

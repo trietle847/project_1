@@ -83,12 +83,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* min-height: calc(100vh - 60px); */
     min-height: 100vh;
-    /* margin: 80px auto 0;
-    padding: 20px;
-    padding-left: 240px;
-    text-align: center; */
 }
 
 .content {
@@ -103,7 +98,6 @@ export default {
     left: 10px;
     right: 0px;
     top: 0;
-    bottom: 0;
 }
 
 .search-container {
