@@ -59,7 +59,7 @@ export default {
             }
 
             try {
-                const response = await dictionaryService.getAVocabulary(this.searchQuery.trim())
+                const response = await dictionaryService.fetchDictionaryList(this.searchQuery.trim())
                 this.results = Array.isArray(response.data) ? response.data : [response.data];
             } catch (error) {
                 console.error("lỗi khi tải dữ liệu:", error);

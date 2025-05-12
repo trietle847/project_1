@@ -1,8 +1,8 @@
 import createAPI from "./api.services";
 
 export default {
-  getAllDictionary() {
-    return createAPI.get("/api/dictionary");
+  fetchDictionaryList(query = "") {
+    return createAPI.get(`/api/dictionary${query ? `?word=${query}` : ""}`);
   },
   getAVocabulary(word) {
     return createAPI.get(`/api/dictionary/${word}`);
