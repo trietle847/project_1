@@ -34,8 +34,9 @@ exports.find = async (req, res, next) => {
 exports.findAll = async (req, res, next) => {
   try {
     const dictionaryService = new DictionaryService(MongoDB.client);
-    const words = await dictionaryService.findAll();
-    return res.send(words);
+    const word = req.query.word;
+    const result = await dictionaryService.findAll(word);
+    return res.send(result);
   } catch (error) {
     return next(
       new ApiError(500, `Không thể lấy danh sách từ: ${error.message}`)

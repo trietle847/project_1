@@ -98,15 +98,18 @@ class dictionaryService {
     return result;
   }
 
-  async findAll() {
-    const cursor = await this.words.find({});
-    return await cursor.toArray();
+  async findAll(word = "") {
+    return await this.words
+      .find({
+        word: { $regex: word.trim().toLowerCase(), $options: "i" },
+      })
+      .toArray();
   }
 
   async find(word) {
     return await this.words
       .find({
-        word: { $regex: word.trim().toLowerCase(), $options: "i" },
+        word: { $regex: `^${word.trim()}$`, $options: "i" },
       })
       .toArray();
   }
