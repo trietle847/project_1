@@ -25,8 +25,8 @@
             </div>
 
             <!-- component wordDetail -->
-            <WordDetail v-if="selectedWord" :word="selectedWord" @close="selectedWord = null"
-            @save="saveWord"/>
+            <WordDetail v-if="selectedWord" :word="selectedWord" :isSaved="isSaved" @close="selectedWord = null"
+            @save="saveWord" @unSave="unSaveWord"/>
         </div>
     </div>
 </template>
@@ -49,7 +49,11 @@ export default {
             searchQuery: "",
             results: null,
             selectedWord: null,
+            isSaved: false,
         };
+    },
+    mounted() {
+        this.inSaveWordList()
     },
     methods: {
         async searchWord() {
@@ -66,13 +70,26 @@ export default {
                 this.results = null;
             }
         },
-        showDetailWord(word) {
+        async showDetailWord(word) {
             console.log("Selected word:", word);
             this.selectedWord = word;
+            this.isSaved = await this.inSaveWordList(word)
         },
         async saveWord() {
             await userSaveWordService.addSaveWord(this.selectedWord.word)
+            this.isSaved = true;
             alert("Thêm từ vào danh sách từ đã lưu thành công")
+        },
+        async unSaveWord(){
+            await userSaveWordService.deleteSavedWord(this.selectedWord.word)
+            this.isSaved = false;
+            alert("Xóa từ khỏi danh sách lưu thành công")
+        },
+        async inSaveWordList(word){
+            const savedWordList = await userSaveWordService.getSavedWords();
+            console.log(savedWordList.data)
+            const saved =  savedWordList.data.includes(word.word)
+            return saved
         }
     },
 };

@@ -15,9 +15,11 @@
                     Đóng
                 </button>
 
-                <button @click="$emit('save')" class="btn btn-primary mt-2">
+                <button v-if="!isSaved" @click="$emit('save')" class="btn btn-primary mt-2">
                     Thêm vào từ đã lưu
                 </button>
+
+                <button v-else @click="$emit('unSave')" class="btn btn-danger mt-2">Xóa khỏi từ điển của tôi</button>
             </div>
         </div>
     </div>
@@ -31,11 +33,15 @@ export default {
             type: Object,
             required: true,
         },
+        isSaved: {
+            type: Boolean,
+            default: false,
+        },
     },
 }
 </script>
-<style scoped>
 
+<style scoped>
 .drag-handle {
     position: absolute;
     width: 20px;
