@@ -7,6 +7,8 @@ import login from "@/views/homePages/login.vue";
 import register from "@/views/homePages/register.vue";
 import savedword from "@/views/userPages/savedWordPage.vue";
 import profile from "@/views/userPages/profile.vue";
+import homeGamePage from "@/views/gamePages/homeGamePage.vue";
+import flashCardGame from "@/views/gamePages/flashCardGame.vue";
 
 const routes = [
   {
@@ -48,6 +50,16 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: profile,
+  },
+  {
+    path: "/game",
+    name: "game",
+    component: homeGamePage,
+  },
+  {
+    path: "/game/flashcard",
+    name: "flashcardgame",
+    component: flashCardGame,
   },
 ];
 const router = createRouter({
