@@ -9,6 +9,7 @@ import savedword from "@/views/userPages/savedWordPage.vue";
 import profile from "@/views/userPages/profile.vue";
 import homeGamePage from "@/views/gamePages/homeGamePage.vue";
 import flashCardGame from "@/views/gamePages/flashCardGame.vue";
+import wordScrambleGame from "@/views/gamePages/wordScrambleGame.vue";
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: "/game/flashcard",
     name: "flashcardgame",
     component: flashCardGame,
+  },
+  {
+    path: "/game/scramble",
+    name: "wordScramblegame",
+    component: wordScrambleGame,
   },
 ];
 const router = createRouter({
