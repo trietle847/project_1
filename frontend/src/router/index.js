@@ -10,6 +10,7 @@ import profile from "@/views/userPages/profile.vue";
 import homeGamePage from "@/views/gamePages/homeGamePage.vue";
 import flashCardGame from "@/views/gamePages/flashCardGame.vue";
 import wordScrambleGame from "@/views/gamePages/wordScrambleGame.vue";
+import contact from "@/views/userPages/contact.vue";
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: "/game/scramble",
     name: "wordScramblegame",
     component: wordScrambleGame,
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: contact,
   },
 ];
 const router = createRouter({

@@ -54,6 +54,7 @@ export default {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("hoten");
       localStorage.removeItem("isAdmin");
+      localStorage.removeItem("token")
       this.isLoggedIn = false;
       this.hoten = "";
     }

@@ -159,7 +159,7 @@ exports.generateVocabularyByRelation = async (req, res, next) => {
 
         success.push({ word });
       } catch (err) {
-        console.error(`❌ Lỗi khi xử lý từ "${word}":`, err.message);
+        console.error(`❌ Lỗi khi xử lý từ "${word}" tự động:`, err.message);
         failed.push({
           word,
           reason: err.message,
