@@ -1,9 +1,7 @@
 <template>
     <div class="admin-page">
-        <Navbar />
-        <Sidebar @selectPage="handleSelectPage" />
         <div class="content">
-            <h1>Admin Dashboard</h1>
+            <h1 class="title">Admin Dashboard</h1>
             <div class="user-management">
                 <h2>Danh sách người dùng</h2>
                 <table class="user-table">
@@ -37,15 +35,10 @@
 
 
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
+
 import userService from '@/services/user.service';
 export default {
     name: "",
-    components: {
-        Navbar,
-        Sidebar
-    },
     data() {
         return {
             users: [],
@@ -72,146 +65,104 @@ export default {
 .admin-page {
     display: flex;
     flex-direction: column;
+    align-items: center;
     min-height: 100vh;
+    background-color: #f2f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Phần content*/
 .content {
-    margin-top: 75px;
-    margin-left: 250px;
-    padding: 20px;
+    display: flex;
     flex: 1;
-    background-color: #f8f9fa;
+    padding: 20px;
+    margin-top: 75px;
+    background-color: #ffffff;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    min-height: calc(100vh - 75px);
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 0;
-    bottom: 0;
+    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
-/* Tiêu đề trang */
-h1 {
+.title {
+    font-size: 28px;
+    font-weight: 700;
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 32px;
+    margin-bottom: 20px;
     color: #333;
 }
 
-/* Quản lý user */
 .user-management {
     margin-top: 20px;
 }
 
-/* Bảng danh sách user */
+.user-management h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    color: #2c3e50;
+}
+
 .user-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Header bảng */
 .user-table th {
-    background-color: #007bff;
-    color: white;
+    background-color: #3498db;
+    color: #fff;
     padding: 12px;
     text-align: center;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 600;
 }
 
-/* Body bảng */
 .user-table td {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #ecf0f1;
+    font-size: 14px;
+    color: #444;
 }
 
-/* Đường viền */
-.user-table th,
-.user-table td {
-    border: 1px solid #dee2e6;
+.user-table tr:last-child td {
+    border-bottom: none;
 }
 
-/* Nhóm nút Edit/Delete */
 .action {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 30px;
-
+    gap: 12px;
 }
 
-/* Nút chung */
 .btn {
-    padding: 6px 12px;
-    width: 80px;
+    padding: 6px 14px;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
     font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* Nút sửa */
 .btn.edit {
-    background-color: #1dc71a;
-    color: white;
+    background-color: #2ecc71;
+    color: #fff;
 }
 
 .btn.edit:hover {
-    opacity: 0.8;
-    ;
+    background-color: #27ae60;
 }
 
-/* Nút xóa */
 .btn.delete {
-    background-color: #dc3545;
-    color: white;
+    background-color: #e74c3c;
+    color: #fff;
 }
 
 .btn.delete:hover {
-    opacity: 0.8;
-}
-
-.addition-form {
-    margin-top: 20px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-}
-
-.addition-form label {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 10px;
-}
-
-
-.form-input {
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 250px;
-    box-sizing: border-box;
-}
-
-.btn.submit {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn.submit:hover {
-    background-color: #0056b3;
+    background-color: #c0392b;
 }
 </style>

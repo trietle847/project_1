@@ -43,10 +43,9 @@ export default {
 
 <style scoped>
 .flashcard {
-    width: 55%;
-    height: 500px;
-    /* perspective: 1000px; */
-    margin: 20px auto;
+    width: 72%;
+    height: 480px;
+    margin: 10px auto;
     cursor: pointer;
 }
 

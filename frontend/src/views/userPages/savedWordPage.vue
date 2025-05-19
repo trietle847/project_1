@@ -1,40 +1,48 @@
 <template>
     <div class="saved-word-page">
-        <Navbar />
-        <Sidebar />
         <div class="content">
-            <h1>Dánh sách các từ đã lưu</h1>
-            <div class="cards-container">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Danh sách các từ đã lưu</h1>
+
+            <div v-if="results.length === 0" class="text-center text-gray-500">
+                Bạn chưa lưu từ nào.
+            </div>
+
+            <div v-else class="cards-container">
                 <div class="word-card" v-for="(result, index) in results" :key="index">
-                    <h2 class="text-xl font-semibold text-blue-600">{{ result.word }}</h2>
+                    <h2 class="text-xl font-semibold text-blue-600 mb-1">{{ result.word }}</h2>
                     <p><strong>Phonetics:</strong> {{ result.phonetics }}</p>
                     <p><strong>Nghĩa Anh:</strong> {{ result.meanings[0]?.english }}</p>
                     <p><strong>Nghĩa Việt:</strong> {{ result.meanings[0]?.vietnamese }}</p>
-                    <p><strong>Ví dụ:<br></strong> <span v-html="result.examples.join('<br>')"></span></p>
-                    <p><strong>Đồng nghĩa:</strong> {{ result.synonyms.join(', ') }}</p>
-                    <p><strong>Trái nghĩa:</strong> {{ result.antonyms.join(', ') }}</p>
-                    <p><strong>Chủ đề:</strong> {{ result.topics.join(', ') }}</p>
-                    <div class="action">
+
+                    <div v-if="result.examples?.length">
+                        <p><strong>Ví dụ:</strong></p>
+                        <ul class="list-disc list-inside ml-4 text-sm text-gray-700">
+                            <li v-for="(ex, i) in result.examples" :key="i">{{ ex }}</li>
+                        </ul>
+                    </div>
+
+                    <p v-if="result.synonyms?.length"><strong>Đồng nghĩa:</strong> {{ result.synonyms.join(', ') }}</p>
+                    <p v-if="result.antonyms?.length"><strong>Trái nghĩa:</strong> {{ result.antonyms.join(', ') }}</p>
+                    <p v-if="result.topics?.length"><strong>Chủ đề:</strong> {{ result.topics.join(', ') }}</p>
+
+                    <div class="action mt-3">
                         <button class="btn-submit" @click="deleteSavedWord(result.word)">Bỏ lưu</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
+  
 
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
 import userSaveWordService from '@/services/userSaveWord.service';
 import dictionaryService from '@/services/dictionary.service';
 
 export default {
     name: 'SavedWordPage',
     components: {
-        Navbar,
-        Sidebar
+
     },
     data() {
         return {
@@ -89,44 +97,63 @@ export default {
 .saved-word-page {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
+    background-color: #f9fafb;
 }
 
 .content {
-    margin-top: 75px;
-    margin-left: 230px;
-    padding: 20px;
     flex: 1;
-    background-color: #f8f9fa;
-    box-sizing: border-box;
-    min-height: calc(100vh - 75px);
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 75px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .cards-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .word-card {
-    text-align: left;
-    background-color: #f5f5f5;
-    padding: 12px 18px;
-    margin-top: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    font-size: 18px;
-    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #f3f4f6;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     color: #333;
-    min-height: 60px;
-    width: 100%;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    width: 85%;
+    transition: transform 0.2s ease;
+
 }
 
-/* .word-card:hover {
-    background-color: #dce8ff;
-    transform: scale(1.02);
-} */
+.word-card:hover {
+    background-color: #e5ecff;
+    transform: translateY(-2px);
+}
+
+.action {
+    margin-top: auto;
+    /* đẩy nút xuống cuối */
+    display: flex;
+    justify-content: flex-end;
+}
 
 .btn-submit {
     padding: 8px 16px;
@@ -134,12 +161,11 @@ export default {
     color: white;
     border: none;
     border-radius: 4px;
-    margin-top: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .btn-submit:hover {
-    opacity: 0.8;
+    opacity: 0.85;
 }
 </style>

@@ -26,6 +26,11 @@
                 <input type="text" id="sdt" v-model="registerData.sdt" placeholder="Enter your phone" required>
             </div>
             <button type="submit" class="btn">Register</button>
+            <div>
+                <p class="text-center mt-4">
+                    <router-link to="/login">Already have an account?</router-link>
+                </p>
+            </div>
         </form>
     </div>
 </template>

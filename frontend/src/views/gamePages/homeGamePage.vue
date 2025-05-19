@@ -1,9 +1,7 @@
 <template>
     <div class="home-game-page">
-        <Navbar />
-        <Sidebar />
         <div class="content">
-            <h1>Chọn game ôn tập</h1>
+            <h1 class="title">Chọn game ôn tập</h1>
             <div class="type-game">
                 <router-link to="/game/flashcard" class="btn-game">
                     🎴 Flash Card
@@ -16,13 +14,8 @@
     </div>
 </template>
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
-
 export default {
     components: {
-        Navbar,
-        Sidebar
     }
 }
 </script>
@@ -30,57 +23,53 @@ export default {
 <style scoped>
 .home-game-page {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    background-color: #f9fafb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .content {
-    margin-top: 75px;
-    margin-left: 230px;
-    padding: 40px;
-    background-color: #f0f2f5;
-    min-height: calc(100vh - 75px);
-    position: absolute;
-    left: 10px;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
 }
 
 h1 {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 40px;
+    font-size: 32px;
+    margin-bottom: 30px;
     color: #2c3e50;
 }
 
 .type-game {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 20px;
 }
 
 .btn-game {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60%;
-    height: 120px;
-    font-size: 24px;
-    font-weight: bold;
+    display: block;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #3498db;
     background-color: #ffffff;
     border: 2px solid #3498db;
     border-radius: 12px;
-    color: #3498db;
-    transition: all 0.3s ease;
     text-decoration: none;
+    transition: 0.3s ease;
 }
 
 .btn-game:hover {
     background-color: #3498db;
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 </style>
+

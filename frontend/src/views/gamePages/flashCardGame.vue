@@ -1,30 +1,31 @@
 <template>
     <div class="flash-card-game">
-        <Navbar />
-        <Sidebar />
         <div class="content">
             <h1>Flash Card</h1>
-            <span class="location">{{ index+1 }} / {{ results.length }}</span>
             <div class="flashCard-container">
-                <!-- <FlashCard v-for="(wordGroup, index) in results" :key="index" :word="wordGroup" /> -->
-                <FlashCard v-if="results.length > 0" :word="results[index]" />
-                <button class="prevCard" @click="prevCard" :disabled="index === 0">Trước</button>
-                <button class="nextCard" @click="nextCard" :disabled="index === results.length - 1">Sau</button>
+                <div class="navigation">
+                    <button class="nav-btn" @click="prevCard" :disabled="index === 0">← Trước</button>
+                    <span class="location">{{ index + 1 }} / {{ results.length }}</span>
+                    <button class="nav-btn" @click="nextCard" :disabled="index === results.length - 1">Sau →</button>
+                </div>
+
+                <div class="card-wrapper" v-if="results.length > 0">
+                    <FlashCard :word="results[index]" />
+                </div>
             </div>
+            <div class="wordScrambleGame" v-if="results.length === index + 1"><router-link to="/game/scramble">Chuyển
+                    sang game word scramble game</router-link></div>
         </div>
     </div>
 </template>
+
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
 import FlashCard from '@/components/flashCard.vue';
 import userSaveWordService from '@/services/userSaveWord.service';
 import dictionaryService from '@/services/dictionary.service';
 
 export default {
     components: {
-        Navbar,
-        Sidebar,
         FlashCard,
     },
     data() {
@@ -47,81 +48,116 @@ export default {
                     const res = await dictionaryService.getAVocabulary(word);
                     wordDetails.push(...res.data)
                 }
-                console.log(wordDetails)
 
-                return this.results = wordDetails;
-
+                this.results = wordDetails;
             } catch (error) {
                 console.error("Lỗi khi tải từ đã lưu:", error);
             }
         },
 
         nextCard() {
-            if (this.index < this.results.length-1) {
-                this.index ++;
+            if (this.index < this.results.length - 1) {
+                this.index++;
             }
         },
         prevCard() {
             if (this.index > 0) {
-                this.index --;
+                this.index--;
             }
         },
-
     }
-
 }
 </script>
 
 <style scoped>
 .flash-card-game {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    background-color: #f0f2f5;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .content {
+    background: #fff;
+    padding: 20px;
     margin-top: 75px;
-    margin-left: 230px;
-    padding: 40px;
-    background-color: #f0f2f5;
-    min-height: calc(100vh - 75px);
-    position: absolute;
-    left: 10px;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    /* border-radius: 16px; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
     position: relative;
 }
 
 h1 {
     text-align: center;
-    font-size: 36px;
-    margin-bottom: 40px;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
     color: #2c3e50;
-}
-.location {
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    font-size: 18px;
 }
 
 .flashCard-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
-.nextCard,
-.prevCard {
-    position: absolute;
-    top: 50%;
+.card-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navigation {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.location {
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-.nextCard {
-    right: 10%;
+.nav-btn:disabled {
+    background-color: #c3d3ec;
+    cursor: not-allowed;
 }
 
-.prevCard {
-    left: 10%;
+.nav-btn:hover:not(:disabled) {
+    background-color: #155ab6;
+}
+
+.wordScrambleGame {
+    font-size: 1rem;
+    color: #3b82f6;
+    text-align: center;
+}
+
+.wordScrambleGame a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.wordScrambleGame a:hover {
+    color: #1e40af;
+    text-decoration: underline;
 }
 </style>

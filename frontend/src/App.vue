@@ -1,16 +1,26 @@
-<script>
-export default {};
-</script>
-
 <template>
-  <div>
-    <router-view /> <!-- Thêm dòng này để hiển thị nội dung từ Vue Router -->
-  </div>
+  <n-layout has-sider style="height: 100vh">
+    <Sidebar v-if="!isAuthPage" v-model:collapsed="collapsed" />
+    <n-layout>
+      <Navbar v-if="!isAuthPage" @toggle-sidebar="collapsed = !collapsed" />
+      <n-layout-content style=" overflow-y: auto;">
+        <router-view />
+      </n-layout-content>
+    </n-layout>
+  </n-layout>
 </template>
 
-<style>
-.page {
-  max-width: 400px;
-  margin: auto;
-}
-</style>
+
+<script setup>
+import Sidebar from "@/components/sidebar.vue";
+import Navbar from "@/components/navbar.vue";
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const collapsed = ref(false);
+const router = useRoute();
+
+const isAuthPage = computed(() => {
+  return router.path ==="/login" || router.path === "/register"
+})
+</script>

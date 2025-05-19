@@ -1,45 +1,46 @@
 <template>
     <div class="contact-page">
-        <Navbar />
-        <Sidebar />
         <div class="content">
             <h1>Đánh giá</h1>
 
+            <div class="newComment">
+                <input type="text" placeholder="Viết bình luận..." v-model="inputUser" />
+                <button @click="createComment" class="sendComment">Gửi</button>
+            </div>
+
             <div class="comment-list">
-                <div class="comment" v-for="comment in results.filter(r => r.parentId === 0)" :key="comment._id" :class="{reply :comment.parentId !== 0}">
+                <div class="comment" v-for="comment in results.filter(c => c.parentId === 0)" :key="comment._id">
                     <div class="comment-item">
                         <div class="username">{{ comment.username }}</div>
                         <div class="content-comment">{{ comment.content }}</div>
                         <div class="date">{{ new Date(comment.createdAt).toLocaleString() }}</div>
-                        <button @click="replyTo = comment._id">Reply</button>
 
-                        <div v-if="replyTo === comment._id" class="reply">
-                            <input type="text" v-model="replyContent">
-                            <button @click="sendReply(comment._id)">Send</button>
+                        <div class="actions">
+                            <button @click="replyTo = (replyTo === comment._id ? null : comment._id)">Phản hồi</button>
                         </div>
 
-                        <div class="reply-list" v-for="reply in results.filter(r => r.parentId === comment._id)"
-                            :key="reply._id">
-                            <div class="username">{{ reply.username }}</div>
-                            <div class="content-comment">{{ reply.content }}</div>
-                            <div class="date">{{ new Date(reply.createdAt).toLocaleString() }}</div>
+                        <div v-if="replyTo === comment._id" class="reply-input">
+                            <input type="text" v-model="replyContent" placeholder="Trả lời...">
+                            <button @click="sendReply(comment._id)" class="sendComment">Gửi</button>
+                        </div>
+
+                        <div class="reply-list">
+                            <div class="reply" v-for="reply in results.filter(r => r.parentId === comment._id)"
+                                :key="reply._id">
+                                <div class="username">{{ reply.username }}</div>
+                                <div class="content-comment">{{ reply.content }}</div>
+                                <div class="date">{{ new Date(reply.createdAt).toLocaleString() }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <p>{{ results.length }}</p>
-
-            <div class="newComment">
-                <input type="text" v-model="inputUser">
-                <button @click="createComment" class="sendComment">Send</button>
-            </div>
         </div>
     </div>
 </template>
-
+  
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
+
 import commentsService from '@/services/comments.service';
 import userService from '@/services/user.service';
 
@@ -47,14 +48,12 @@ import userService from '@/services/user.service';
 export default {
     name: 'ContactPage',
     components: {
-        Navbar,
-        Sidebar
     },
     data() {
         return {
             results: [],
             inputUser: "",
-            replyTo : null,
+            replyTo: null,
             replyContent: "",
 
         }
@@ -102,66 +101,125 @@ export default {
 <style scoped>
 .contact-page {
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-
-/* Phần content */
-.content {
-    margin-top: 75px;
-    margin-left: 230px;
-    padding: 20px;
-    flex: 1;
-    background-color: #f8f9fa;
+    justify-content: center;
+    background-color: #f0f2f5;
+    padding: 40px 20px 0 20px;
+    min-height: 100vh;
     box-sizing: border-box;
-    min-height: calc(100vh - 75px);
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 0;
 }
 
-/* Danh sách comment */
+.content {
+    flex: 1;
+    width: 100%;
+    margin-top: 35px;
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #050505;
+    border-bottom: 1px solid #dddfe2;
+    padding-bottom: 10px;
+}
+
 .comment-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* Khoảng cách giữa các comment */
 }
 
-/* Mỗi comment */
-.comment {
-    background-color: #fdfdfd;
-    border: 1px solid #ddd;
-    border-left: 4px solid #4caf50;
-    padding: 12px 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+.comment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-bottom: 1px solid #dddfe2;
+    padding-bottom: 12px;
 }
 
-.comment:hover {
-    background-color: #f0f9f0;
+.reply-list {
+    margin-left: 16px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .username {
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 6px;
+    font-weight: 600;
+    color: #050505;
+    font-size: 14px;
 }
 
-.content {
-    color: #444;
-    margin-bottom: 4px;
+.content-comment {
+    font-size: 14px;
+    color: #1c1e21;
 }
 
 .date {
     font-size: 12px;
-    color: #888;
-    text-align: right;
+    color: #65676b;
 }
 
-.reply-list {
-    margin-left: 20px;
+.actions {
+    margin-top: 4px;
+}
+
+button {
+    background: none;
+    border: none;
+    color: #1877f2;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+button:hover {
+    text-decoration: underline;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 6px;
+    font-size: 14px;
+    border: 1px solid #ccd0d5;
+    border-radius: 18px;
+    outline: none;
+    background-color: #f0f2f5;
+}
+
+.newComment {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.reply-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sendComment {
+    padding: 6px 12px;
+    border-radius: 18px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sendComment:hover {
+    background-color: #155ab6;
 }
 </style>
+
+

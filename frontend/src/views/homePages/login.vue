@@ -21,44 +21,38 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore} from '@/stores/authStore.stores'
 import userService from '@/services/user.service';
 
-export default {
-  name: "Login",
-  data() {
-    return {
-      loginData: {
-        tendangnhap: "",
-        password: "",
-      }
-    };
-  },
-  methods: {
-    async handleLogin() {
-      try {
-        const response = await userService.login(this.loginData);
-        console.log(response.data.token);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("isLoggedIn", true);
+const loginData = reactive({
+  tendangnhap: "",
+  password: "",
+});
 
-        const result = await userService.getUserByUsername(this.loginData.tendangnhap);
-        localStorage.setItem("hoten", result.data.hoten);
+const authStore = useAuthStore();
+const router = useRouter();
 
-        alert("Đăng nhập thành công!");
-        
-        if (this.loginData.tendangnhap === "admin") {
-          localStorage.setItem("isAdmin", true);
-        }
+const handleLogin = async () => {
+  try {
+    const response = await userService.login(loginData);
+    const token = response.data.token;
 
-        this.$router.push("/");
-      } catch (error) {
-        console.error("Lỗi đăng nhập:", error);
-      }
-    }
+    const result = await userService.getUserByUsername(loginData.tendangnhap);
+    const hoten = result.data.hoten;
+    const isAdmin = loginData.tendangnhap === "admin";
 
-  },
-};
+    authStore.login({token, hoten, isAdmin})
+    alert("Đăng nhập thành công");
+
+    router.push("/")
+  } catch (error) {
+    console.error(error)
+    alert("Sai thông tin")
+  }
+}
 </script>
 
 <style scoped>

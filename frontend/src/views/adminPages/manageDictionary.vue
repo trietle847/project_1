@@ -1,7 +1,5 @@
 <template>
     <div class="admin-page">
-        <Navbar />
-        <Sidebar @selectPage="handleSelectPage" />
         <div class="content">
             <div class="dictionary-management">
 
@@ -56,15 +54,12 @@
 
 
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
 import generateByAIService from '@/services/generateByAI.service';
 
 export default {
     name: "manageDictionary",
     components: {
-        Navbar,
-        Sidebar
+
     },
     data() {
         return {
@@ -136,147 +131,139 @@ export default {
 .admin-page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-}
-
-/* Phần content*/
-.content {
-    margin-top: 75px;
-    margin-left: 250px;
-    padding: 20px;
-    flex: 1;
-    background-color: #f8f9fa;
-    box-sizing: border-box;
-    min-height: calc(100vh - 75px);
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 0;
-    bottom: 0;
-}
-
-/* Tiêu đề trang */
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 32px;
-    color: #333;
-}
-
-/* Quản lý user */
-.user-management {
-    margin-top: 20px;
-}
-
-/* Bảng danh sách user */
-.user-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Header bảng */
-.user-table th {
-    background-color: #007bff;
-    color: white;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Body bảng */
-.user-table td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #dee2e6;
-}
-
-/* Đường viền */
-.user-table th,
-.user-table td {
-    border: 1px solid #dee2e6;
-}
-
-/* Nhóm nút Edit/Delete */
-.action {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 30px;
-
+    min-height: 100vh;
+    background-color: #f2f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Nút chung */
-.btn {
-    padding: 6px 12px;
-    width: 80px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 14px;
-}
-
-/* Nút sửa */
-.btn.edit {
-    background-color: #1dc71a;
-    color: white;
-}
-
-.btn.edit:hover {
-    opacity: 0.8;
-    ;
-}
-
-/* Nút xóa */
-.btn.delete {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn.delete:hover {
-    opacity: 0.8;
-}
-
-.addition-form {
-    margin-top: 20px;
+.content {
     display: flex;
-    align-items: flex-start;
+    flex: 1;
+    padding: 20px;
+    margin-top: 75px;
+    padding-left: 80px;
+    background-color: #ffffff;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
 }
 
-.addition-form label {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    padding-bottom: 10px;
+.dictionary-management {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
+h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Form thêm từ */
+.addition-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 16px;
+}
 
 .form-input {
-    padding: 8px 12px;
+    padding: 10px 14px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 250px;
-    box-sizing: border-box;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    border-color: #007bff;
 }
 
 .btn.submit {
-    padding: 8px 16px;
+    width: fit-content;
+    padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
-.btn.submit:hover {
+.btn.submit:disabled {
+    background-color: #a0c9ff;
+    cursor: not-allowed;
+}
+
+.btn.submit:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
+/* Kết quả */
+.result-form {
+    margin-top: 20px;
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.content-result {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.numOfResult {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* Danh sách */
+.arraySuccess,
+.arrayFail {
+    margin-top: 10px;
+}
+
+.arraySuccess h3,
+.arrayFail h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #2c3e50;
+}
+
+.arraySuccess ul,
+.arrayFail ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Update dictionary section */
+.update-dictionary {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
 </style>

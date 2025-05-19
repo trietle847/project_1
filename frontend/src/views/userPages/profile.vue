@@ -1,7 +1,6 @@
 <template>
     <div class="profile-page">
-        <Navbar />
-        <Sidebar />
+
         <div class="content">
             <h1>Thông tin tài khoản</h1>
             <div class="card-info">
@@ -21,15 +20,11 @@
 </template>
 
 <script>
-import Navbar from '@/components/navbar.vue';
-import Sidebar from '@/components/sidebar.vue';
 import userService from '@/services/user.service';
 
 export default {
     name: 'SavedWordPage',
     components: {
-        Navbar,
-        Sidebar
     },
     data() {
         return {
@@ -57,20 +52,21 @@ export default {
 .profile-page {
     display: flex;
     flex-direction: column;
+    align-items: center;
     min-height: 100vh;
+    background-color: #f2f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Phần content*/
 .content {
     margin-top: 75px;
-    margin-left: 230px;
     padding: 20px;
     flex: 1;
     background-color: #f8f9fa;
     box-sizing: border-box;
-    min-height: calc(100vh - 75px);
     position: absolute;
-    left: 10px;
+    left: 0;
     right: 0px;
     top: 0;
 
@@ -82,10 +78,11 @@ export default {
 }
 
 .user-info {
-    padding: 40px 50px;
+    padding: 30px 50px;
     border: 1px solid #000;
     border-radius: 5px;
-    margin-top: 100px;
+    margin-top: 80px;
+    width: 50%;
 }
 
 .user-info p {
