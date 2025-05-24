@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const createAPI = axios.create({
-  baseURL: "http://localhost:3000", // Thay đổi tùy theo server
+  baseURL: import.meta.env.VITE_API_URL, // Thay đổi tùy theo server "http://localhost:3000"
   headers: {
     "Content-Type": "application/json",
   },
