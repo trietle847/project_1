@@ -2,7 +2,6 @@ const ChatGPTService = require("../services/chatgpt.service");
 const DictionaryService = require("../services/dictionary.service");
 const ApiError = require("../app-error");
 const MongoDB = require("../utils/mongodb.util");
-// const { vocabularyPromptTemplate } = require("../templates/prompt.template");
 
 exports.generateVocabulary = async (req, res, next) => {
   try {

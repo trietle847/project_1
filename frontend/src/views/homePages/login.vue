@@ -7,10 +7,18 @@
         <input type="text" id="username" v-model="loginData.tendangnhap" placeholder="Enter your username" required />
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="loginData.password" placeholder="Enter your password" required />
+        <div style="position: relative; ">
+          <label for="password">Password</label>
+          <input :type="showPassword ? 'text' : 'password'" id="password" v-model="loginData.password"
+            placeholder="Enter password" required style="padding-right: 2.5rem;" />
+          <i :class="showPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'" @click="toggleShowPassword"
+            class="PasswordEyeIcons"></i>
+        </div>
       </div>
+
       <button type="submit" class="btn">Login</button>
+
+      <div class="error-message" v-if="errorMessages">{{ errorMessages }}</div>
 
       <div>
         <p class="text-center mt-4">
@@ -22,7 +30,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore} from '@/stores/authStore.stores'
 import userService from '@/services/user.service';
@@ -31,6 +39,9 @@ const loginData = reactive({
   tendangnhap: "",
   password: "",
 });
+
+const showPassword = ref(false);
+const errorMessages = ref("");
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -45,13 +56,16 @@ const handleLogin = async () => {
     const isAdmin = loginData.tendangnhap === "admin";
 
     authStore.login({token, hoten, isAdmin})
-    alert("Đăng nhập thành công");
 
     router.push("/")
   } catch (error) {
     console.error(error)
-    alert("Sai thông tin")
+    errorMessages.value = "Thông tin đăng nhập không chính xác"
   }
+}
+
+function toggleShowPassword () {
+  showPassword.value = !showPassword.value;
 }
 </script>
 
@@ -101,5 +115,20 @@ input {
 
 .btn:hover {
   background-color: #0056b3;
+}
+
+.PasswordEyeIcons {
+  position: absolute;
+  top: 70%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
 }
 </style>

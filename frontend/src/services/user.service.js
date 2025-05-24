@@ -11,7 +11,7 @@ export default {
     return createAPI.get(`/user/${id}`)
   },
   getUserByUsername(username) {
-    return createAPI.get(`/user/${username}`)
+    return createAPI.get(`/user/name/${username}`)
   },
   login(data) {
     return createAPI.post("/user/login",data)
@@ -19,4 +19,10 @@ export default {
   getMe() {
     return createAPI.get("/user/me")
   },
+  update(id,data) {
+    return createAPI.put(`/user/${id}`,data)
+  },
+  deleteUser(id) {
+    return createAPI.delete(`/user/${id}`)
+  }
 };

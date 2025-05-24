@@ -11,4 +11,7 @@ router.route("/")
 router.route("/")
     .delete(authMiddleware,userSaved.deleteSavedWord)
 
+router.route("/:tendangnhap")
+    .delete(userSaved.deleteUser)
+
 module.exports = router;

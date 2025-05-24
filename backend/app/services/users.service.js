@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { ObjectId, ReturnDocument } = require("mongodb");
 
 class userService {
   constructor(client) {
@@ -14,6 +14,12 @@ class userService {
       sdt: payload.sdt,
     };
 
+    Object.keys(user).forEach((key) => {
+      if (user[key] === undefined || user[key] === null) {
+        delete user[key];
+      }
+    });
+    
     return user;
   }
 
@@ -43,7 +49,7 @@ class userService {
         _id: new ObjectId(id),
       });
     } catch (error) {
-      throw new Error("Lỗi khi xóa người dùng")
+      throw new Error("Lỗi khi xóa người dùng");
     }
   }
 
@@ -53,13 +59,43 @@ class userService {
         tendangnhap: tendangnhap,
       });
 
-      if (existUser)
-        return existUser
+      if (existUser) return existUser;
       else {
         throw new Error("Người dùng không tồn tại");
       }
     } catch (error) {
       throw new Error("lỗi khi tìm người dùng", error);
+    }
+  }
+
+  async updateUser(id,payload) {
+    try {
+      const updateData = this.extractUserData(payload);
+      const result = await this.User.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: updateData },
+        { returnDocument: "after" }
+      )
+     
+      return result;
+    } catch (error) {
+      console.error("Chi tiết lỗi khi cập nhật:", error);
+      throw new Error("Lỗi khi cập nhật: " + error.message);
+    }
+  }
+
+  async getUserById(id) {
+    try {
+      const existUser = await this.User.findOne({
+        _id: new ObjectId(id),
+      });
+
+      if (existUser) return existUser;
+      else {
+        throw new Error("Người dùng không tồn tại");
+      }
+    } catch (error) {
+      throw new Error(`loi khi tim ${error}`);
     }
   }
 }

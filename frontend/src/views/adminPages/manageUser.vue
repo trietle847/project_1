@@ -20,14 +20,16 @@
                             <td>{{ user.email }}</td>
                             <td>
                                 <div class="action">
-                                    <button class="btn edit">Sửa</button>
-                                    <button class="btn delete">Xóa</button>
+                                    <button class="btn edit" @click="editingUser = user">Sửa</button>
+                                    <button class="btn delete"
+                                        @click="removeUser(user._id, user.tendangnhap)">Xóa</button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <EditUser v-if="editingUser" :user="editingUser" @close="editingUser = null" @updated="fetchUser" />
 
         </div>
     </div>
@@ -37,11 +39,19 @@
 <script>
 
 import userService from '@/services/user.service';
+import EditUser from '@/components/editUser.vue';
+import userSaveWordService from '@/services/userSaveWord.service';
+
+
 export default {
     name: "",
+    components: {
+        EditUser,
+    },
     data() {
         return {
             users: [],
+            editingUser: null,
         }
     },
     mounted() {
@@ -53,9 +63,22 @@ export default {
                 const response = await userService.getAllUser();
                 this.users = response.data;
             } catch (error) {
-                console.log("lỗi khi lấy người dùng:", error)
+                console.log("lỗi khi cập nhật người dùng:", error)
             }
         },
+
+        async removeUser(id, username) {
+            try {
+                if (confirm("Bạn có chắc là muốn xóa người dùng này")) {
+                    await userService.deleteUser(id);
+                    await userSaveWordService.deleteUser(username);
+                    this.fetchUser();
+                }
+
+            } catch (error) {
+                console.log("lỗi khi xóa người dùng:", error)
+            }
+        }
 
     },
 };

@@ -11,31 +11,35 @@
                     <p>Số điện thoại: {{ user.sdt }}</p>
 
                     <div class="action">
-                        <button class="btn btn-primary">Sửa tài khoản</button>
+                        <button class="btn btn-primary" @click="editingUser = user">Sửa tài khoản</button>
                     </div>
                 </div>
             </div>
+            <EditUser v-if="editingUser" :user="editingUser" @close="editingUser = null" @updated="fetchUser" />
         </div>
     </div>
 </template>
 
 <script>
 import userService from '@/services/user.service';
+import EditUser from '@/components/editUser.vue';
 
 export default {
     name: 'SavedWordPage',
     components: {
+        EditUser,
     },
     data() {
         return {
             user: {},
+            editingUser: null,
         };
     },
     mounted() {
-        this.fetchData();
+        this.fetchUser();
     },
     methods: {
-        async fetchData() {
+        async fetchUser() {
             try {
                 const response = await userService.getMe();
                 this.user = response.data;
@@ -43,7 +47,7 @@ export default {
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
-        }
+        },
     }
 }
 </script>

@@ -124,6 +124,7 @@ export default {
     z-index: 10;
     right: 20px;
     left: 10px;
+    top: 40px
 }
 
 .title {

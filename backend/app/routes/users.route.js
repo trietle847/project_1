@@ -16,8 +16,10 @@ router.route("/me")
 
 router.route("/:id")
     .delete(user.deleteUserByID)
+    .put(user.update)
+    .get(user.getUserById)
 
-router.route("/:tendangnhap")
+router.route("/name/:tendangnhap")
     .get(user.getUserByUsername)
 
 

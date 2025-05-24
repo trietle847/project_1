@@ -42,3 +42,19 @@ exports.deleteSavedWord = async(req, res, next) => {
     next(new ApiError(500, `Lỗi khi xóa từ ${error}`))
   }
 }
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const userSavedService = new UserSavedWordService(MongoDB.client);
+    console.log(req.params.tendangnhap)
+    const result = await userSavedService.deleteUser(req.params.tendangnhap);
+
+    if (!result) {
+      return next(new ApiError(404, "không tìm người dùng để xóa"));
+    }
+
+    return res.send({ message: "Xóa thành công" });
+  } catch (error) {
+    return next(new ApiError(500, ` Lỗi khi xóa người dùng: ${error}`));
+  }
+};

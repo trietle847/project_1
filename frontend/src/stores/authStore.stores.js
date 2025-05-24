@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { jwtDecode } from "jwt-decode";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -26,5 +27,18 @@ export const useAuthStore = defineStore("auth", {
       this.isLoggedIn = false;
       localStorage.clear();
     },
+    checkTokenExpiry() {
+      if (!this.token) return ;
+      try {
+        const decode = jwtDecode(this.token);
+        if (decode.exp *1000 <Date.now()) {
+          this.logout();
+          alert("Phiên bản đã hết hạn")
+        }
+      } catch (error) {
+        console.error("Lỗi khi decode token:", error);
+        this.logout();
+      }
+    }
   },
 });

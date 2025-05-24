@@ -1,8 +1,10 @@
 const axios = require("axios");
+require("dotenv").config();
 
 class ChatGPTService {
   constructor() {
-    this.apiKey = "AIzaSyDKhMHhbDeZ5UR_sYsJTzxdpnIh5SueGqw"; // Thay bằng API key của bạn
+    // this.apiKey = "AIzaSyDKhMHhbDeZ5UR_sYsJTzxdpnIh5SueGqw"; // Thay bằng API key của bạn
+    this.apiKey = process.env.GEMINI_API_KEY;
     this.url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`;
   }
 

@@ -26,7 +26,20 @@ class UserSavedWordService {
     );
     return result;
   }
-  
+
+  async deleteUser(username) {
+    try {
+      console.log("Đang xóa user:", username);
+      const deleted = await this.saved.findOneAndDelete({
+        tendangnhap: username,
+      });
+      console.log("Kết quả xóa:", deleted);
+      return deleted;
+    } catch (error) {
+      console.error("Lỗi khi xóa:", error);
+      throw new Error("Lỗi khi xóa người dùng");
+    }
+  }
 }
 
 module.exports = UserSavedWordService;

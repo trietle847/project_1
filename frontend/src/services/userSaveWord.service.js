@@ -10,5 +10,8 @@ export default {
   deleteSavedWord(word) {
     return createAPI.delete(`/userSavedWord?word=${encodeURIComponent(word)}`);
   },
+  deleteUser(username) {
+    return createAPI.delete(`/userSavedWord/${username}`);
+  }
   
 }
