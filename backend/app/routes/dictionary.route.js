@@ -3,17 +3,18 @@ const dictionary = require("../controller/dictionary.controller");
 
 const router = express.Router();
 
+// Đặt route cụ thể lên trước
+router.route("/related-words/:word")
+    .delete(dictionary.deleteRelatedWord);
+
 router.route("/:word")
-    .get(dictionary.find) // tìm chính xác 1 từ 
+    .get(dictionary.find)
     .delete(dictionary.delete)
-    .put(dictionary.update)
+    .put(dictionary.update);
 
 router.route("/")
     .delete(dictionary.deleteAll)
     .post(dictionary.create)
-    .get(dictionary.findAll) // lấy tất cả các từ có chứa 1 ký tự trong nó
+    .get(dictionary.findAll);
 
-router.route("/related-words/:word")
-    .delete(dictionary.deleteRelatedWord)
-    
 module.exports = router;

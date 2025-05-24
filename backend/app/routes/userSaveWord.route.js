@@ -6,12 +6,10 @@ const router = express.Router();
 
 router.route("/")
     .get(authMiddleware, userSaved.getSavedWords)
-    .post(authMiddleware, userSaved.saveWord);
-
-router.route("/")
-    .delete(authMiddleware,userSaved.deleteSavedWord)
+    .post(authMiddleware, userSaved.saveWord)
+    .delete(authMiddleware,userSaved.deleteSavedWord);
 
 router.route("/:tendangnhap")
-    .delete(userSaved.deleteUser)
+    .delete(userSaved.deleteUserSaved)
 
 module.exports = router;

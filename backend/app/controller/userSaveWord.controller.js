@@ -43,7 +43,7 @@ exports.deleteSavedWord = async(req, res, next) => {
   }
 }
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUserSaved = async (req, res, next) => {
   try {
     const userSavedService = new UserSavedWordService(MongoDB.client);
     console.log(req.params.tendangnhap)
